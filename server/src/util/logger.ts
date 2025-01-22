@@ -12,7 +12,9 @@ import { MongoDBTransportInstance } from 'winston-mongodb'
 // Linking Trace Support
 sourceMapSupport.install()
 
-const colorizeLevel = (level: string) => {
+type TransportType = ConsoleTransportInstance | FileTransportInstance | MongoDBTransportInstance
+
+const colorizeLevel = (level: string): string => {
     switch (level) {
         case 'ERROR':
             return red(level)
@@ -25,15 +27,18 @@ const colorizeLevel = (level: string) => {
     }
 }
 
-const consoleLogFormat = format.printf((info) => {
-     
+interface TransformableInfo {
+    level: string
+    message: unknown
+    [key: string]: unknown
+}
+
+const consoleLogFormat = format.printf((info: TransformableInfo) => {
     const { level, message, timestamp, meta = {} } = info
 
     const customLevel = colorizeLevel(level.toUpperCase())
-     
     const customTimestamp = green(timestamp as string)
-
-    const customMessage = message as string;
+    const customMessage = message as string
 
     const customMeta = util.inspect(meta, {
         showHidden: false,
@@ -41,12 +46,10 @@ const consoleLogFormat = format.printf((info) => {
         colors: true
     })
 
-    const customLog = `${customLevel} [${customTimestamp}] ${customMessage}\n${magenta('META')} ${customMeta}\n`
-
-    return customLog
+    return `${customLevel} [${customTimestamp}] ${customMessage}\n${magenta('META')} ${customMeta}\n`
 })
 
-const consoleTransport = (): Array<ConsoleTransportInstance> => {
+const consoleTransport = (): TransportType[] => {
     if (config.ENV === EApplicationEnvironment.DEVELOPMENT) {
         return [
             new transports.Console({
@@ -59,28 +62,25 @@ const consoleTransport = (): Array<ConsoleTransportInstance> => {
     return []
 }
 
-const fileLogFormat = format.printf((info) => {
-     
+const fileLogFormat = format.printf((info: TransformableInfo) => {
     const { level, message, timestamp, meta = {} } = info
 
-    const logMeta: Record<string, unknown> = {};
+    const logMeta: Record<string, unknown> = {}
     for (const [key, value] of Object.entries(meta as Record<string, unknown>)) {
         if (value instanceof Error) {
             logMeta[key] = {
                 name: value.name,
                 message: value.message,
                 trace: value.stack || '',
-            };
+            }
         } else {
-            logMeta[key] = value;
+            logMeta[key] = value
         }
     }
 
     const logData = {
         level: level.toUpperCase(),
-         
         message,
-         
         timestamp,
         meta: logMeta
     }
@@ -88,7 +88,7 @@ const fileLogFormat = format.printf((info) => {
     return JSON.stringify(logData, null, 4)
 })
 
-const FileTransport = (): Array<FileTransportInstance> => {
+const FileTransport = (): TransportType[] => {
     return [
         new transports.File({
             filename: path.join(__dirname, '../', '../', 'logs', `${config.ENV}.log`),
@@ -98,7 +98,7 @@ const FileTransport = (): Array<FileTransportInstance> => {
     ]
 }
 
-const MongodbTransport = (): Array<MongoDBTransportInstance> => {
+const MongodbTransport = (): TransportType[] => {
     return [
         new transports.MongoDB({
             level: 'info',
@@ -114,5 +114,5 @@ export default createLogger({
     defaultMeta: {
         meta: {}
     },
-    transports: [...FileTransport(), ...MongodbTransport(), ...consoleTransport()]
+    transports: [...FileTransport(), ...MongodbTransport(), ...consoleTransport()] as TransportType[]
 })

@@ -2,10 +2,6 @@
 
 A production-ready development template featuring TypeScript, React, Node.js, and MongoDB, all orchestrated with Docker. This template emphasizes best practices, modern tooling, and developer experience to help you kickstart your projects with enterprise-grade configuration.
 
-![GitHub](https://img.shields.io/github/license/manishdashsharma/project-setup-starter)
-![GitHub stars](https://img.shields.io/github/stars/manishdashsharma/project-setup-starter)
-![GitHub issues](https://img.shields.io/github/issues/manishdashsharma/project-setup-starter)
-
 ## 🚀 Tech Stack
 
 - **Frontend**: React 18 with TypeScript
@@ -144,7 +140,7 @@ We welcome contributions! Please follow these steps:
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/manishdashsharma/project-setup-toolkit/blob/main/LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
