@@ -1,113 +1,164 @@
+# Project Initialization Kit Tool
 
-# Project Initialization Kit
+A production-ready development template featuring TypeScript, React, Node.js, and MongoDB, all orchestrated with Docker. This template emphasizes best practices, modern tooling, and developer experience to help you kickstart your projects with enterprise-grade configuration.
 
-Welcome to the **Project Initialization Kit**, a comprehensive setup template designed to streamline your project setup process. This template supports modern development stacks and tools, including Node.js, React, TypeScript, MongoDB, Docker, and Docker Compose. By following these steps, you can quickly bootstrap your project and focus on development.
+![GitHub](https://img.shields.io/github/license/manishdashsharma/project-setup-starter)
+![GitHub stars](https://img.shields.io/github/stars/manishdashsharma/project-setup-starter)
+![GitHub issues](https://img.shields.io/github/issues/manishdashsharma/project-setup-starter)
 
-## Features
+## 🚀 Tech Stack
 
-- **Node.js & React.js**: Ready for server and client-side development.
-- **TypeScript**: Type safety for better code quality and maintainability.
-- **MongoDB**: Pre-configured for your database needs.
-- **Docker & Docker Compose**: Containerization and orchestration setup.
-- **ESLint**: Ensures code quality and consistency.
-- **Prettier**: Code formatting for a clean codebase.
-- **Husky**: Git hooks for enforcing code quality before commits and pushes.
-- **Commitlint**: Enforces conventional commit messages for a clean and consistent commit history.
+- **Frontend**: React 18 with TypeScript
+- **Backend**: Node.js with Express and TypeScript
+- **Database**: MongoDB
+- **Containerization**: Docker & Docker Compose
+- **Code Quality**: ESLint, Prettier
+- **Git Hooks**: Husky with Commitlint
+- **Development**: Hot-reloading for both frontend and backend
 
-## Getting Started
+## ✨ Features
 
-Follow these steps to set up your project:
+- **Containerized Development**: Consistent development environment across teams
+- **Type Safety**: Full TypeScript support across the stack
+- **Modern Tooling**: Latest stable versions of React, Node.js, and supporting libraries
+- **Code Quality**: Automated linting and formatting on commit
+- **Conventional Commits**: Standardized commit messages for better collaboration
+- **Development Ready**: Pre-configured development and production environments
 
-1. **Clone the Repository**
+## 🛠 Quick Start
 
+### Prerequisites
+
+- Docker Desktop installed and running
+- Git
+- Node.js 18+ (for local development outside Docker)
+
+### Installation
+
+1. **Clone the Template**
    ```bash
-   git clone https://github.com/manishdashsharma/project-setup-starter.git <your-folder-name>
+   git clone https://github.com/manishdashsharma/project-setup-starter.git your-project-name
+   cd your-project-name
    ```
 
-   Example:
-
+2. **Initialize Your Project**
    ```bash
-   git clone https://github.com/manishdashsharma/project-setup-starter.git myapp
+   # Remove existing Git history
+   rm -rf .git
+   
+   # Initialize new Git repository
+   git init
+   git remote add origin your-repository-url
    ```
 
-2. **Create a Remote Repository**
-
-   After cloning the repository locally, create a new repository on your Git hosting platform (e.g., GitHub, GitLab).
-
-3. **Set Execution Permission for Setup Script**
-
-   Navigate to the project folder and give the setup script execution permission:
-
+3. **Configure Environment**
    ```bash
-   cd <your-folder-name>
-   chmod +x setup_application.sh
+   # Copy environment templates
+   cp .env.example .env.development
+   cp .env.example .env.production
+   
+   # Set execute permissions for the setup script
+   chmod +x docker-manager.sh
    ```
 
-4. **Run the Setup Script**
-
-   Run the setup script to automate the initialization process:
-
+4. **Launch Your Stack**
    ```bash
-   ./setup_application.sh
+   ./docker-manager.sh your-project-name
    ```
 
-   This script will:
+### Running Your Application
 
-   - Remove the existing `.git` folder
-   - Install dependencies
-   - Initialize Git and Husky
-   - Install both server and client dependencies
-   - Set up necessary permissions for scripts
+The setup script provides an interactive menu to manage your development environment:
 
-5. **Add Your Remote Repository**
+```bash
+./docker-manager.sh
+```
 
-   Once your new repository has been created, you can now add your remote repository URL:
+Select from the following options:
+1. Launch all services (fresh start)
+2. Start backend server only
+3. Start frontend client only
+4. Start both server and client
 
-   ```bash
-   git branch -M main
-   git remote add origin <your-remote-url>
-   ```
+## 🌐 Accessing Your Applications
 
-   Make sure to replace `<your-remote-url>` with the actual URL of your newly created repository.
+After startup, your applications will be available at:
 
-6. **Create Environment Files**
-
-   After setting up the repository, manually create the environment files:
-
-   - `.env.development`
-   - `.env.production`
-
-   Copy the content from `.env.example` into both files.
-
-7. **Start Docker Client**
-
-   Ensure Docker is running on your machine.
-
-8. **Start the Server**
-
-   Start the project by running the following script:
-
-   ```bash
-   ./start_application.sh
-   ```
-
-9. **Clean Up Docker Environment**
-
-   To remove all Docker containers, images, volumes, and builds associated with the project, use the cleanup script:
-
-   ```bash
-   ./remove.sh
-   ```
-
-   **Note:** This script will remove all Docker services and data associated with the project. Ensure no other critical services are running in Docker before executing it.
-
-## Check Your Setup
-
-After completing the setup, verify if everything is running correctly by accessing the following:
-
-- **Backend**: [http://localhost:5000/api/v1/self](http://localhost:5000/api/v1/self)
 - **Frontend**: [http://localhost:5173](http://localhost:5173)
+- **Backend API**: [http://localhost:5000/api/v1/self](http://localhost:5000/api/v1/self)
 
-## Contributing
+## 📁 Project Structure
 
-We welcome contributions to improve this template. Please fork the repository and submit a pull request with your enhancements.
+```
+your-project-name/
+├── client/                 # React frontend
+├── server/                 # Node.js backend
+├── docker-compose.dev.yml  # Development container configuration
+├── docker-compose.prod.yml # Production container configuration
+├── .env.development       # Development environment variables
+├── .env.production        # Production environment variables
+└── docker-manager.sh      # Management script
+```
+
+## 🛠 Development Workflow
+
+1. **Start Development Environment**
+   ```bash
+   ./docker-manager.sh
+   # Select development environment and desired services
+   ```
+
+2. **Code Changes**
+   - Frontend and backend feature hot-reloading
+   - ESLint and Prettier run automatically on save
+   - Git hooks enforce code quality and commit message standards
+
+3. **Commit Changes**
+   ```bash
+   git add .
+   git commit -m "feat: add new feature"
+   # Husky runs pre-commit hooks automatically
+   ```
+
+## 🚀 Deployment
+
+1. **Build Production Images**
+   ```bash
+   ./docker-manager.sh
+   # Select production environment and clean start
+   ```
+
+2. **Environment Configuration**
+   - Update `.env.production` with your production values
+   - Ensure all sensitive data is properly secured
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to your branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [TypeScript](https://www.typescriptlang.org/)
+- [React](https://reactjs.org/)
+- [Node.js](https://nodejs.org/)
+- [Docker](https://www.docker.com/)
+- [MongoDB](https://www.mongodb.com/)
+
+## 📫 Support
+
+If you find this template helpful, please consider:
+- Starring the repository
+- Reporting issues
+- Contributing improvements
+
+For questions and support, please open an issue in the GitHub repository.

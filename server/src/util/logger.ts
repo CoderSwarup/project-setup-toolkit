@@ -26,15 +26,14 @@ const colorizeLevel = (level: string) => {
 }
 
 const consoleLogFormat = format.printf((info) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+     
     const { level, message, timestamp, meta = {} } = info
 
     const customLevel = colorizeLevel(level.toUpperCase())
      
     const customTimestamp = green(timestamp as string)
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const customMessage = message
+    const customMessage = message as string;
 
     const customMeta = util.inspect(meta, {
         showHidden: false,
@@ -61,29 +60,27 @@ const consoleTransport = (): Array<ConsoleTransportInstance> => {
 }
 
 const fileLogFormat = format.printf((info) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+     
     const { level, message, timestamp, meta = {} } = info
 
-    const logMeta: Record<string, unknown> = {}
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    for (const [key, value] of Object.entries(meta)) {
+    const logMeta: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(meta as Record<string, unknown>)) {
         if (value instanceof Error) {
             logMeta[key] = {
                 name: value.name,
                 message: value.message,
-                trace: value.stack || ''
-            }
+                trace: value.stack || '',
+            };
         } else {
-            logMeta[key] = value
+            logMeta[key] = value;
         }
     }
 
     const logData = {
         level: level.toUpperCase(),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+         
         message,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+         
         timestamp,
         meta: logMeta
     }
@@ -108,9 +105,6 @@ const MongodbTransport = (): Array<MongoDBTransportInstance> => {
             db: config.DATABASE_URL as string,
             metaKey: 'meta',
             expireAfterSeconds: 3600 * 24 * 30,
-            options: {
-                useUnifiedTopology: true
-            },
             collection: 'application-logs'
         })
     ]
